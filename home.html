@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<title>Converto</title>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+		header {
+            height: 80px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        #logo {
+            line-height: 60px;
+            cursor: defult;
+            font-size: 30px;
+            font-weight: bold;
+            color: #00a7ff; /* blue */
+        }
+
+        #logo:hover {
+            color: #eef9ff; /* white */
+        }
+
+        #logo-s {
+            color: #eef9ff; /* white */
+        }
+
+        #logo:hover #logo-s {
+            color: #00a7ff; /* blue */
+        }
+
+        .sign {
+            line-height: 60px;
+        }
+
+        .sign a {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .act {
+            border: 2px solid #fff;
+            border-radius: 50px;
+            padding: 6px 15px;
+        }
+
+        .sign a:hover {
+            color: #00a7ff; /* blue */
+            border-color: #00a7ff; /* blue */
+        }
+
+        .slider {
+			position: relative;
+			width: 100%; 
+			height: 100vh; 
+			background: #0D203B; 
+			overflow: hidden; 
+		}
+
+        .myslide {
+            height: 750px;
+            display: none;
+            overflow: hidden;
+        }
+		
+		.myslide.fade {
+			animation: fadeIn 3s ease-out;
+		}
+		
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+		
+        .prev,
+        .next {
+            position: absolute;
+            top: 35%;
+            font-size: 70px;
+            padding: 30px;
+            cursor: pointer;
+            color: #fff;
+            user-select: none;
+        }
+		
+		.prev,.next {
+			transition: color 0.2s ease;
+		}
+
+		.prev:hover,.next:hover {
+			color: #00a7ff; /* blue */
+		}
+
+        .next {
+            right: 0;
+        }
+
+        .active,
+        .dot:hover {
+            border-color: #00a7ff; /* blue */
+        }
+
+		.myslide.fade.first-slide {
+			height: 100vh;
+			background-image: url('home.png'); 
+			background-size: cover;
+			background-position: center;
+		}
+		
+		.myslide.fade.creators .creators{
+            display: flex;
+            justify-content: flex-end; 
+            margin-top: 8%;
+        }
+
+        .creator-details {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .creator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .creator img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-top: 50px;
+        }
+
+        .creator h1 {
+            color: #fff;
+            font-weight: bold;
+            font-size: 30px;
+            margin-top: 10px;
+        }
+
+        .creator p {
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .social-media-icons {
+            margin-top: 10px;
+
+        }
+
+        .social-media-icons a {
+            display: inline-block;
+            margin-right: 10px; 
+            color: #fff;
+            font-size: 25px;
+        }
+
+        .social-media-icons a:hover {
+            color: #00a7ff;
+        }
+
+        .text-section {
+            width: 90%;
+        }
+
+        .text-section h2 {
+            color: #fff;
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .text-section p {
+            color: #ccc;
+            font-size: 20px;
+        }
+		
+		.welcome-banner {
+			position: absolute;
+			top: 47%;
+			left: 40%;
+			transform: translate(-50%, -50%);
+			color: #fff; 
+			
+		}
+
+		.welcome-banner h1 {
+			font-size: 65px;
+			margin-bottom: 20px;
+		}
+
+		.welcome-banner p {
+			font-size: 20px;
+			width: 75%;
+			line-height: 1.5;
+			text-align: justify;
+		}
+		
+		.container {
+			display: flex;
+			align-items: center;	
+		}
+		
+		.quiz {
+			margin-left: 20%;
+			max-width: 550px;
+			height: 505px;
+			margin-top: 6%;
+			padding: 25px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		.quiz h2 {
+			margin-bottom: 10px;    
+			font-size: 30px;
+			color: #007bff;
+			text-align: center;
+		}
+
+		.quiz select,
+		.quiz input[type="number"] {
+			width: 100%;
+			padding: 10px;
+			font-size: 18px;
+			margin-bottom: 20px;
+			border: 1px solid #ced4da;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+
+		.quiz button {
+			width: 100%;
+			padding: 10px 10px;
+			margin-bottom: 10px;
+			background-color: #007bff;
+			color: #fff;
+			font-size: 18px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.quiz button:hover {
+			background-color: #0056b3;
+		}
+
+		.quiz #result,
+		.quiz #question {
+			font-weight: bold;
+			text-align: center;
+			margin-bottom: 10px;
+			font-size: 18px;
+			padding: 18px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		
+		.quiz #question, .quiz #score {
+			color: #fff;
+		}
+
+		.quiz #result {
+			color: #FF0000;
+		}
+		
+		.quiz #score {
+			font-size: 20px;
+		}
+
+		#container {
+			width: 350px;
+			height: 420px;
+			margin: 9rem 6rem auto; 
+			background-color: #ABABAB;
+			border-radius: 4px;
+			border: 2px solid #C1C1C1;
+			box-shadow: -3px 3px 7px rgba(0, 0, 0, .6), inset -100px 0px 100px rgba(255, 255, 255, .5);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			perspective: 800px; /* Add perspective for 3D effect */
+		}
+
+		#display {
+			display: block;
+			margin: 15px auto;
+			height: 60px;
+			width: 310px;
+			padding: 0 10px;
+			border-radius: 4px;
+			border-top: 2px solid #C1C1C1;
+			border-right: 2px solid #C1C1C1;
+			border-bottom: 2px solid #FFF;
+			border-left: 2px solid #FFF;
+			background-color: #FFF;
+			box-shadow: inset 0px 0px 10px #030303, inset 0px -20px 1px rgba(150, 150, 150, .2);
+			font-size: 30px;
+			color: #666;
+			text-align: right;
+			font-weight: 400;
+			transform-style: preserve-3d; /* Add 3D transformations */
+			transform: rotateY(10deg); /* Apply initial rotation */
+		}
+
+		.button {
+			margin: 2px;
+			width: 70px;
+			height: 70px;
+			font-size: 20px;
+			font-weight: bold;
+			border-radius: 4px;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.mathButtons {
+			margin: 2px 2px 6px 2px;
+			color: #FFF;
+			text-shadow: -1px -1px 0px #44006F;
+			background-color: #434343;
+			border-top: 2px solid #C1C1C1;
+			border-right: 2px solid #C1C1C1;
+			border-bottom: 2px solid #181818;
+			border-left: 2px solid #181818;
+			box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #2E2E2E;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.digits {
+			color: #181818;
+			text-shadow: 1px 1px 0px #FFF;
+			background-color: #EBEBEB;
+			border-top: 2px solid #FFF;
+			border-right: 2px solid #FFF;
+			border-bottom: 2px solid #C1C1C1;
+			border-left: 2px solid #C1C1C1;
+			border-radius: 4px;
+			box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #DCDCDC;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.digits:hover,
+		.mathButtons:hover,
+		#clearButton:hover {
+			background-color: #FFBA75;
+			box-shadow: 0px 0px 2px #FFBA75, inset 0px -20px 1px #FF8000;
+			border-top: 2px solid #FFF;
+			border-right: 2px solid #FFF;
+			border-bottom: 2px solid #AE5700;
+			border-left: 2px solid #AE5700;
+			transform: translateY(-2px) rotateX(10deg); /* Apply hover effect with rotation */
+		}
+
+		#clearButton {
+			color: #FFF;
+			text-shadow: -1px -1px 0px #44006F;
+			background-color: #D20000;
+			border-top: 2px solid #FF8484;
+			border-right: 2px solid #FF8484;
+			border-bottom: 2px solid #800000;
+			border-left: 2px solid #800000;
+			box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #B00000;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.converter-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 8%;
+            flex-wrap: wrap;
+            padding: 0 10%;
+        }
+
+		.converter-option {
+			text-align: center;
+			transition: transform 0.3s ease;
+			margin-bottom: 30px;
+			padding: 30px;
+			background-color: #e5e4e2; 	
+			border-radius: 5px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			width: 350px;
+		}
+
+        .converter-option:hover {
+            transform: translateY(-3px);
+        }
+
+        .converter-option img {
+            width: 100%;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .converter-option:hover img {
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+		.learn-more-button {
+			color: #fff;
+			font-weight: bold;
+			text-decoration: none;
+			border-radius: 5px;
+			background-color: #0047AB; 
+			transition: background-color 0.3s ease;
+			padding: 15px 20px;
+			display: inline-block;
+			width: 300px; 
+			height: 50px; 
+			text-align: center;
+		}
+
+        .learn-more-button:hover {
+			#0093d9; 
+        }	
+		
+		.converter-option:hover {
+			background-color: #FFBA75;
+			box-shadow: 
+				0px 0px 10px #FFBA75, 
+				inset 0px -10px 0px #FF8000, 
+				5px 5px 15px rgba(0, 0, 0, 0.3);
+			border-top: 2px solid #AE5700;
+			border-right: 2px solid #AE5700;
+			border-bottom: 2px solid #AE5700;
+			border-left: 2px solid #AE5700;
+			transform: translateY(-2px); 
+			perspective: 1000px; 
+			transform: perspective(1000px) rotateX(10deg); 
+		}
+
+
+		footer {
+			background-color: #fff;
+			color: #000;
+			padding: 15px;
+			text-align: center;
+			position: fixed; 
+			width: 100%; 
+			bottom: 0; 
+		}
+
+		footer p {
+			margin: 0; 
+		}
+		
+		footer p {
+			animation: fadeIn 1s ease-out forwards;
+		}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="logo">CONVERT<span id="logo-s">O.</span></div>
+        <div class="sign">
+            <a onclick="scrollToSlide(1)">Home</a>
+            <a onclick="scrollToSlide(2)">About Us</a>
+            <a onclick="scrollToSlide(3)">Courses</a>
+            <a onclick="scrollToSlide(4)">Exercises</a>
+        </div>
+    </header>
+
+    <div class="slider">
+		<div class="myslide fade first-slide">
+			<div class="welcome-banner">
+				<h1>Effortless Conversion, Endless Possibilities.</h1>
+				<p>We make converting measurements effortless, simplifying the process across different units. 
+				With our dedication to precision and efficiency, we ensure seamless conversions for all students.</p>
+			</div>
+		</div>
+
+
+        <div class="myslide fade creators">
+            <div class="creators">
+                <div class="text-section">
+                    <h2>About the Creators</h2>
+                    <p>Meet the talented individuals behind our platform who strive to provide you with the best conversion experience.</p>
+                </div>
+            </div>
+            <div class="creator-details">
+                <div class="creator">
+                    <img src="Flora.png" alt="Creator 1">
+                    <h1>Mariane Flora</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/mrnnnnn23" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:mariane.flora783@adamson.edu.ph" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://www.instagram.com/mrnnnnnz" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+                <div class="creator">
+                    <img src="Navarro.jpg" alt="Creator 2">
+                    <h1>Aldrin Navarro</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/aldrinn.borromeo" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:aldrin.navarro@adamson.edu.ph" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://www.instagram.com/drinnss21" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+
+                <div class="creator">
+                    <img src="Masigan.jpg" alt="Creator 3">
+                    <h1>Thomas Masigan</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/RagingMonkey.12" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:thomas.masigan@adamson.edu.ph" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://instagram.com/thomas.masigan" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+
+                <div class="creator">
+                    <img src="Salcedo.jpg" alt="Creator 4">
+                    <h1>Anton Salcedo</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/ajsalc.04" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:youremail@example.com" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://instagram.com/antonslcd" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>		
+            </div>
+        </div>
+
+        <div class="myslide fade">
+            <div class="converter-options">
+                <div class="converter-option">
+                    <div class="converter-content">
+                        <img src="Metric.png" alt="Metric Converter">
+                        <div class="button-container">
+                            <a href="metric_lesson.html" class="learn-more-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="converter-option">
+                    <div class="converter-content">
+                        <img src="English.png" alt="English Converter">
+                        <div class="button-container">
+                            <a href="english_lesson.html" class="learn-more-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="converter-option">
+                    <div class="converter-content">
+                        <img src="Number.png" alt="Number Converter">
+                        <div class="button-container">
+                            <a href="number_lesson.html" class="learn-more-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="myslide fade">
+            <div class="container">
+				<div class="quiz">
+					<h2>Random Question Generator</h2>
+							<select id="system">
+								<option value="metric">Metric System</option>
+								<option value="english">English System</option>
+								<option value="number">Number System</option>
+							</select>
+							<button onclick="choose(); randNumber()">Choose System</button>
+							<h1 id="question"></h1>
+							<input type="number" id="answer" placeholder="Enter your answer">
+							<button onclick="checkAnswer()">Check Answer</button>
+							<h1 id="result"> </h1>
+							<h1 id="score">Score: </h1>
+				</div>
+				<fieldset id="container">
+					<form name="calculator">
+
+						<input id="display" type="text" name="display" readonly>
+
+						<input class="button digits" type="button" value="7" onclick="calculator.display.value += '7'">
+						<input class="button digits" type="button" value="8" onclick="calculator.display.value += '8'">
+						<input class="button digits" type="button" value="9" onclick="calculator.display.value += '9'">
+						<input class="button mathButtons" type="button" value="+" onclick="calculator.display.value += ' + '">
+						<br>
+						<input class="button digits" type="button" value="4" onclick="calculator.display.value += '4'">
+						<input class="button digits" type="button" value="5" onclick="calculator.display.value += '5'">
+						<input class="button digits" type="button" value="6" onclick="calculator.display.value += '6'">
+						<input class="button mathButtons" type="button" value="-" onclick="calculator.display.value += ' - '">
+						<br>
+						<input class="button digits" type="button" value="1" onclick="calculator.display.value += '1'">
+						<input class="button digits" type="button" value="2" onclick="calculator.display.value += '2'">
+						<input class="button digits" type="button" value="3" onclick="calculator.display.value += '3'">
+						<input class="button mathButtons" type="button" value="x" onclick="calculator.display.value += ' * '">
+						<br>
+						<input id="clearButton" class="button" type="button" value="C" onclick="calculator.display.value = ''">
+						<input class="button digits" type="button" value="0" onclick="calculator.display.value += '0'">
+						<input class="button mathButtons" type="button" value="=" onclick="calculator.display.value = eval(calculator.display.value)">
+						<input class="button mathButtons" type="button" value="/" onclick="calculator.display.value += ' / '">
+					</form>
+				</fieldset>
+            </div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+	<footer>
+        <div>
+            <p>&copy; 2024 Converto. All rights reserved.</p>
+        </div>
+    </footer>
+	
+    <script>
+        const myslide = document.querySelectorAll('.myslide'),
+            dot = document.querySelectorAll('.dot');
+        let counter = 1;
+        slidefun(counter);
+
+        function autoSlide() {
+            counter += 1;
+            slidefun(counter);
+        }
+
+        function plusSlides(n) {
+            counter += n;
+            slidefun(counter);
+        }
+
+        function currentSlide(n) {
+            counter = n;
+            slidefun(counter);
+        }
+
+        function scrollToSlide(n) {
+            currentSlide(n);
+            if (n === 1) {
+                myslide[0].scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function slidefun(n) {
+            let i;
+            for (i = 0; i < myslide.length; i++) {
+                myslide[i].style.display = "none";
+            }
+            for (i = 0; i < dot.length; i++) {
+                dot[i].className = dot[i].className.replace(' active', '');
+            }
+            if (n > myslide.length) {
+                counter = 1;
+            }
+            if (n < 1) {
+                counter = myslide.length;
+            }
+            myslide[counter - 1].style.display = "block";
+            dot[counter - 1].className += " active";
+        }
+		
+		var correctAnswer = 0;
+        var randNum;
+        var unit1 = "";
+        var unit2 = "";
+        var ans;
+
+        function random(max, min) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function randNumber() {
+            randNum = random(200, 1);
+        }
+
+        function choose() {
+            var UserChose = document.getElementById('system').value;
+            document.getElementById('answer').value = null;
+            document.getElementById('result').innerText = "";
+            if (UserChose == "number") {
+                numberSystem();
+            } else if (UserChose == "metric") {
+                QuestionMetric();
+            } else if (UserChose == "english") {
+                QuestionEnglish();
+            }
+        }
+
+        function valuefinder(Unit1, Unit2) {
+            let val = 1;
+            const conversionFactors = {
+                "Millimeters": { "Centimeters": 0.1, "Meters": 0.001, "Kilometers": 0.000001 },
+                "Centimeters": { "Millimeters": 10, "Meters": 0.01, "Kilometers": 0.00001 },
+                "Meters": { "Millimeters": 1000, "Centimeters": 100, "Kilometers": 0.001 },
+                "Kilometers": { "Millimeters": 1000000, "Centimeters": 100000, "Meters": 1000 },
+                "Milligrams": { "Grams": 0.001, "Kilograms": 0.000001, "Tonnes": 0.000000001 },
+                "Centigrams": { "Grams": 0.01, "Kilograms": 0.00001, "Tonnes": 0.00000001 },
+                "Grams": { "Milligrams": 1000, "Centigrams": 100, "Kilograms": 0.001, "Tonnes": 0.000001 },
+                "Kilograms": { "Milligrams": 1000000, "Centigrams": 100000, "Grams": 1000, "Tonnes": 0.001 },
+                "Tonnes": { "Milligrams": 1000000000, "Centigrams": 100000000, "Grams": 1000000, "Kilograms": 1000 },
+                "Square Centimeters": { "Square Meters": 0.0001, "Square Kilometers": 0.0000000001, "Hectare": 0.00000001 },
+                "Square Meters": { "Square Centimeters": 10000, "Square Kilometers": 0.000001, "Hectare": 0.0001 },
+                "Square Kilometers": { "Square Centimeters": 10000000000, "Square Meters": 1000000, "Hectare": 100 },
+                "Hectare": { "Square Centimeters": 100000000, "Square Meters": 10000, "Square Kilometers": 0.01 },
+                "Milliliters": { "Centiliters": 0.1, "Liters": 0.001, "KiloLiters": 0.000001 },
+                "Centiliters": { "Milliliters": 10, "Liters": 0.01, "KiloLiters": 0.00001 },
+                "Liters": { "Milliliters": 1000, "Centiliters": 100, "KiloLiters": 0.001 },
+                "KiloLiters": { "Milliliters": 1000000, "Centiliters": 100000, "Liters": 1000 },
+            };
+            if (conversionFactors[Unit1] && conversionFactors[Unit1][Unit2]) {
+                val = conversionFactors[Unit1][Unit2];
+            }
+            return val;
+        }
+
+        function QuestionMetric() {
+            const Length = ["Millimeters", "Centimeters", "Meters", "Kilometers"];
+            const Mass = ["Milligrams", "Centigrams", "Grams", "Kilograms", "Tonnes"];
+            const Area = ["Square Centimeters", "Square Meters", "Square Kilometers", "Hectare"];
+            const Capacity = ["Milliliters", "Centiliters", "Liters", "Kiloliters"];
+            
+            const categories = [Length, Mass, Area, Capacity];
+            const category = categories[random(categories.length - 1, 0)];
+            const unitIndex1 = random(category.length - 1, 0);
+            let unitIndex2 = random(category.length - 1, 0);
+            while (unitIndex1 === unitIndex2) {
+                unitIndex2 = random(category.length - 1, 0);
+            }
+            const Unit1 = category[unitIndex1];
+            const Unit2 = category[unitIndex2];
+
+            const conversion = valuefinder(Unit1, Unit2);
+            questionMaker(Unit1, Unit2, conversion);
+        }
+
+        function questionMaker(Unit1, Unit2, formula) {
+            const problemSmall = [4.2, 3.5, 2.4, 3.5, 8, 6, 4, 5, 3];
+            const problem = [10, 20, 30, 40, 55, 62, 15, 19, 82, 33, 56, 80, 70];
+            const problemLarge = [1500, 750, 525, 432, 782, 1002, 3000, 400, 705];
+            
+            let disp = "Convert ";
+            let selectedValue;
+            if (Unit1.toLowerCase().startsWith("kilo") || Unit1.toLowerCase().startsWith("hect") || Unit1.toLowerCase().startsWith("tonn")) {
+                selectedValue = problemSmall[random(problemSmall.length - 1, 0)];
+                disp += selectedValue + " " + Unit1 + " Into " + Unit2;
+                ans = selectedValue * formula;
+            } else if (Unit1.toLowerCase().startsWith("mill")) {
+                selectedValue = problemLarge[random(problemLarge.length - 1, 0)];
+                disp += selectedValue + " " + Unit1 + " Into " + Unit2;
+                ans = selectedValue * formula;
+            } else {
+                selectedValue = problem[random(problem.length - 1, 0)];
+                disp += selectedValue + " " + Unit1 + " Into " + Unit2;
+                ans = selectedValue * formula;
+            }
+            document.getElementById('question').innerHTML = disp;
+        }
+
+        function numberSystem() {
+            randNumber();
+            const nums = ["Binary", "Hexadecimal", "Octadecimal", "Decimal"];
+            let rand1 = random(3,0);
+            unit1 = nums[rand1];
+            let rand2 = repeatCheck(unit1, random(3,0),3,0);
+            unit2 = nums[rand2];
+            
+            converter(unit1);
+            let temp = converter(unit2);
+            console.log("temp is " + temp);
+            console.log("num is: " + randNum);
+            document.getElementById('question').innerHTML = "Convert " + temp + " " + unit2 + " to " + unit1 + ".";
+            var correctAns = converter(unit1);
+            if (correctAns == undefined) { 
+                    value = correctAns; 
+                    console.log("variable value" + correctAns);
+                }
+            console.log("Correct answer is " + correctAns);
+            ans = correctAns; 
+            return ans;
+        }
+
+        function repeatCheck(val1, val2, max, min){ 
+            if (val1 !== val2){
+                return val2;
+            }
+            else if(val1 == val2){
+                val2 = random(max, min);
+                return repeatCheck(val1, val2, max, min);
+            }
+        }   
+
+        function converter(inputUnit) {
+                switch (inputUnit){
+            case "Binary":
+                value = randNum.toString(2);
+                console.log(value);
+                return value;
+                break;
+            case "Hexadecimal":
+                value = randNum.toString(16).toUpperCase();
+                console.log(value);
+                return value;
+                break;
+            case "Octadecimal":
+                value = randNum.toString(8);
+                console.log(value);
+                return value;
+                break;
+            case "Decimal":
+                value = randNum.toString(10);
+                console.log(value);
+                return value;
+                break;
+                }
+        }
+
+        function QuestionEnglish() {
+            const length = ["Inches", "Feet", "Miles", "Yards"];
+            const mass = ["Grains", "Ounces", "Pounds", "Stones", "Tons"];
+            const volume = ["Fluid Ounces", "Gills", "Pints", "Quarts", "Gallons"];
+            const area = ["Square Inches", "Square Feet", "Square Yards", "Acres"];
+            const temp = ["Celsius", "Fahrenheit", "Kelvin"];
+
+            const categories = [length, mass, volume, area, temp];
+            const category = categories[random(categories.length - 1, 0)];
+            const unitIndex1 = random(category.length - 1, 0);
+            let unitIndex2 = random(category.length - 1, 0);
+            while (unitIndex1 === unitIndex2) {
+                unitIndex2 = random(category.length - 1, 0);
+            }
+            unit1 = category[unitIndex1];
+            unit2 = category[unitIndex2];
+
+            if (temp.includes(unit1) && temp.includes(unit2)) {
+                QuestionTemp(unit1, unit2);
+            } else {
+                const conversion = valuefinder(unit1, unit2);
+                questionMaker(unit1, unit2, conversion);
+            }
+        }
+
+        function QuestionTemp(unit1, unit2) {
+            const problemSmall = [4.2, 3.5, 2.4, 3.5, 8, 6, 4, 5, 3];
+            const problem = [10, 20, 30, 40, 55, 62, 15, 19, 82, 33, 56, 80, 70];
+            const problemLarge = [1500, 750, 525, 432, 782, 1002, 3000, 400, 705];
+            let selectedValue;
+            if (unit1.toLowerCase().startsWith("kilo") || unit1.toLowerCase().startsWith("hect") || unit1.toLowerCase().startsWith("tonn")) {
+                selectedValue = problemSmall[random(problemSmall.length - 1, 0)];
+            } else if (unit1.toLowerCase().startsWith("mill")) {
+                selectedValue = problemLarge[random(problemLarge.length - 1, 0)];
+            } else {
+                selectedValue = problem[random(problem.length - 1, 0)];
+            }
+
+            let disp = "Convert " + selectedValue + " " + unit1 + " into " + unit2;
+            switch (unit1) {
+                case "Fahrenheit":
+                    switch (unit2) {
+                        case "Celsius":
+                            ans = (selectedValue - 32) * 5 / 9;
+                            break;
+                        case "Kelvin":
+                            ans = (selectedValue + 459.67) * 5 / 9;
+                            break;
+                    }
+                    break;
+                case "Celsius":
+                    switch (unit2) {
+                        case "Fahrenheit":
+                            ans = (selectedValue * 9 / 5) + 32;
+                            break;
+                        case "Kelvin":
+                            ans = selectedValue + 273.15;
+                            break;
+                    }
+                    break;
+                case "Kelvin":
+                    switch (unit2) {
+                        case "Fahrenheit":
+                            ans = (selectedValue * 9 / 5) - 459.67;
+                            break;
+                        case "Celsius":
+                            ans = selectedValue - 273.15;
+                            break;
+                    }
+                    break;
+            }
+            document.getElementById('question').innerHTML = disp;
+        }
+
+        function checkAnswer() {
+            var score = 0;
+            var userInput = document.getElementById("answer").value;
+            var lowerBound = ans - 0.1 * ans;
+            var upperBound = ans + 0.1 * ans;
+
+            if (ans === userInput) {
+                ++score;
+                document.getElementById('result').innerText = "Correct Answer";
+            } else {
+                document.getElementById('result').innerText = "Wrong Answer";
+            }
+            document.getElementById('score').innerText = "Score: " + score;
+            console.log(score);
+            return score;
+        }
+    </script>
+</body>
+</html>
